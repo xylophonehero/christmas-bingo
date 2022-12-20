@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --brand: hsl(280,100%,70%);
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  color: white;
+  background-image: linear-gradient(to bottom, #2e026d, #15162c);
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  transition-property: background-color, outline-offset;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :where(:focus-visible) {
+    transition: outline-offset 145ms ease-in;
+  }
+  :where(:not(:active):focus-visible) {
+    transition-duration: .25s;
+  }
+}
+
+:focus-visible {
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: var(--brand);
+}
+
+:where(:not(:active):focus-visible) {
+  outline-offset: 4px;
+}

@@ -10,7 +10,7 @@ const Auth: React.FC = () => {
         {sessionData && <span>{sessionData.user?.name}</span>}
       </p>
       <Button
-        onClick={sessionData ? () => signOut() : () => signIn()}
+        onClick={sessionData ? () => signOut({ redirect: true, callbackUrl: '/' }) : () => signIn()}
       >
         {sessionData ? "Sign out" : "Sign in"}
       </Button>

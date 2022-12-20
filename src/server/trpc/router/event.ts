@@ -3,7 +3,10 @@ import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const eventRouter = router({
   add: protectedProcedure
-    .input(z.object({ text: z.string() }))
+    .input(z.object({
+      text: z.string(),
+      occasionId: z.string(),
+    }))
     .mutation(async ({ ctx, input }) => {
       const event = await ctx.prisma.event.create({
         select: {
@@ -11,6 +14,7 @@ export const eventRouter = router({
         },
         data: {
           text: input.text,
+          occasionId: input.occasionId,
         }
       })
       return event
@@ -33,11 +37,28 @@ export const eventRouter = router({
         include: {
           _count: {
             select: {
-              EventInstance: true
+              eventInstance: true
             }
           }
         }
       })
+    }),
+  eventsByOccasion: protectedProcedure
+    .input(z.object({ occasionId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const events = await ctx.prisma.event.findMany({
+        include: {
+          _count: {
+            select: {
+              eventInstance: true
+            }
+          }
+        },
+        where: {
+          occasionId: input.occasionId,
+        }
+      })
+      return events
     }),
   addInstance: protectedProcedure
     .input(z.object({ eventId: z.string() }))

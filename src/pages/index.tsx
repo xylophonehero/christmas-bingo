@@ -1,17 +1,13 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { trpc } from "../utils/trpc";
 import Button from "../components/Button";
-import { FiPlus } from 'react-icons/fi'
 import Heading from "../components/Heading";
+import UserOccasions from "../components/UserOccasions";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
-  const utils = trpc.useContext()
-  const events = trpc.event.getAll.useQuery()
-  const mutation = trpc.event.addInstance.useMutation({
-    onSuccess: () => utils.event.getAll.invalidate()
-  })
+  const { data: sessionData } = useSession()
 
   return (
     <>
@@ -24,27 +20,18 @@ const Home: NextPage = () => {
         <Heading>
           Christmas Bingo
         </Heading>
-        {events.data && events.data.length === 0 && <div>So empty :(</div>}
-        {events.data && events.data.length > 0 && <ul className="max-w-md w-full text-white space-y-2">
-          {events.data.map((event) => <li key={event.id} className="grid grid-cols-[2ch_1fr_auto] gap-2 items-center">
+        {sessionData
+          ? <>
+            <UserOccasions />
             <div>
-              {event._count.EventInstance}
-            </div>
-            <div>
-              <Link href={`events/${event.id}`}>
-                {event.text}
+              <Link href="add">
+                <Button>New occasion</Button>
               </Link>
             </div>
-            <Button round onClick={() => mutation.mutate({ eventId: event.id })}>
-              <FiPlus />
-            </Button>
-          </li>)}
-        </ul>}
-        <div>
-          <Link href="add">
-            <Button>New event</Button>
-          </Link>
-        </div>
+          </>
+          : <div>
+            Sign in to see your occasions
+          </div>}
       </div>
     </>
   );

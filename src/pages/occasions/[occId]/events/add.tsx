@@ -26,10 +26,7 @@ const Add: NextPage = () => {
     <form className="flex flex-col items-center gap-8" onSubmit={handleSubmit((data) => mutation.mutate({ text: data.text, occasionId: Number(query.occId) }))}>
       <Input label="Event name" {...register('text')} required />
       <div className="text-red-400 empty:hidden flex space-x-2 items-center">
-        <BiErrorCircle />
-        <span>
-          {mutation.error?.message}
-        </span>
+        {mutation.error?.message}
       </div>
       <div className="flex gap-4">
         <Button type="submit">

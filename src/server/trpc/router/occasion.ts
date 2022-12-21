@@ -4,7 +4,7 @@ import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const occasionRouter = router({
   getById: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.number() }))
     .query(async ({ ctx, input }) => {
       const occasion = await ctx.prisma.occasion.findUnique({
         where: {
@@ -21,12 +21,6 @@ export const occasionRouter = router({
             }
           }
         }
-        // select: {
-        //   title: true,
-        //   startDate: true,
-        //   endDate: true,
-        //   events: true,
-        // }
       })
       return occasion
     }),
@@ -67,7 +61,7 @@ export const occasionRouter = router({
     }),
   invite: protectedProcedure
     .input(z.object({
-      id: z.string(),
+      id: z.number(),
       email: z.string().email()
     }))
     .mutation(async ({ ctx, input }) => {

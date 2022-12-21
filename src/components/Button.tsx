@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 import React, { forwardRef } from 'react'
 
 type Props = ComponentPropsWithoutRef<'button'> & {

@@ -20,6 +20,19 @@ body {
   flex-direction: column;
 }
 
+main {
+  display: grid;
+  grid-template-columns: 1fr min(60ch, calc(100% - 64px)) 1fr;
+  column-gap: 32px;
+  justify-items: center;
+  align-content: center;
+  row-gap: 48px;
+}
+
+main > * {
+  grid-column: 2;
+}
+
 button {
   transition-property: background-color, outline-offset;
 }

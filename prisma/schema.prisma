@@ -14,14 +14,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Occasion {
-  id           String   @id @default(cuid())
+  id           Int      @id @default(autoincrement())
   title        String
   startDate    DateTime
   endDate      DateTime
@@ -30,21 +24,21 @@ model Occasion {
 }
 
 model Event {
-  id            String          @id @default(cuid())
+  id            Int             @id @default(autoincrement())
   text          String
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   eventInstance EventInstance[]
-  Occasion      Occasion?       @relation(fields: [occasionId], references: [id])
-  occasionId    String?
+  occasion      Occasion?       @relation(fields: [occasionId], references: [id])
+  occasionId    Int?
 }
 
 model EventInstance {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   event     Event    @relation(fields: [eventId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  eventId   String
+  eventId   Int
   user      User     @relation(fields: [userId], references: [id])
   userId    String
 }

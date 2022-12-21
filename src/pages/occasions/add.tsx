@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import Button from "../components/Button";
-import Heading from "../components/Heading";
-import Input from "../components/Input";
-import { trpc } from "../utils/trpc";
+import Button from "../../components/Button";
+import Heading from "../../components/Heading";
+import Input from "../../components/Input";
+import { trpc } from "../../utils/trpc";
 
 interface AddForm {
   text: string
@@ -15,7 +15,7 @@ interface AddForm {
 const Add: NextPage = () => {
   const { push } = useRouter()
   const mutation = trpc.occasion.create.useMutation({
-    onSuccess: ({ id }) => push(`/${id}`)
+    onSuccess: ({ id }) => push(`/occasions/${id}`)
   })
   const { register, handleSubmit } = useForm<AddForm>()
 
@@ -31,9 +31,9 @@ const Add: NextPage = () => {
       New event
     </Heading>
     <form className="flex flex-col items-center gap-8" onSubmit={handleSubmit(handleAdd)}>
-      <Input {...register('text')} required />
-      <Input {...register('startDate')} required type="date" />
-      <Input {...register('endDate')} required type="date" />
+      <Input label="Name" {...register('text')} required />
+      <Input label="Start date" {...register('startDate')} required type="date" />
+      <Input label="End date" {...register('endDate')} required type="date" />
       <div className="flex gap-4">
         <Button type="submit">
           Submit

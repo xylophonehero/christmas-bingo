@@ -25,6 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <main className="flex-1">
         <Component {...pageProps} />
       </main>
+      <footer className="py-4" />
     </SessionProvider>
   );
 };
